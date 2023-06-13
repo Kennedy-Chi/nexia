@@ -255,7 +255,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   const domainName = company.companyDomain;
-  const resetURL = `${domainName}/reset-password/?token=${resetToken}`;
+  const resetURL = `${domainName}/change-password/?token=${resetToken}`;
   const content = email.content.replace("{{username}}", `${user.username}`);
   const banner = "";
 
@@ -412,7 +412,7 @@ function validateUser(
   phoneNumber
 ) {
   const regex = /^.{6,}$/;
-  const regexUser = /^.{4,}$/;
+  const regexUser = /^.{3,}$/;
   const phoneRegex = /^[0-9+]+$/;
 
   if (!regexUser.test(username)) {
@@ -431,8 +431,10 @@ function validateUser(
     return "Password must be at least 6 characters long";
   }
 
-  if (!phoneRegex.test(phoneNumber)) {
-    return "Please enter a valid phone number";
+  if (phoneNumber) {
+    if (!phoneRegex.test(phoneNumber)) {
+      return "Please enter a valid phone number";
+    }
   }
 
   if (!/^\S+@\S+\.\S+$/.test(email)) {
