@@ -141,8 +141,6 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
           );
         }
 
-        await Transaction.create(data);
-
         await Wallet.findByIdAndUpdate(data.walletId, {
           $inc: {
             pendingWithdrawal: data.amount,
@@ -726,7 +724,7 @@ const startRunningDeposit = async (data, id, next) => {
   startActiveDeposit(
     activeDeposit,
     earning,
-    data.planDuration * 1,
+    data.planDuration * 24 * 60 * 60 * 1000,
     data.planCycle * 1,
     user,
     next
