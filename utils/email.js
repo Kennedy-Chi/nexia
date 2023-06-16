@@ -82,12 +82,4 @@ module.exports = class Email {
   sendEmail() {
     this.send(`${this.template}`, `${this.title}`);
   }
-
-  sendForgottenPassword() {
-    this.send("password", "Reset password");
-  }
-
-  sendWelcome() {
-    this.send("welcome", "Login Notification");
-  }
 };

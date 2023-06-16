@@ -3410,6 +3410,7 @@ textarea.w-select {
 }
 
 .each-input-holder {
+  height: 7vh;
   border-radius: 5px;
   display: flex;
   overflow: hidden;

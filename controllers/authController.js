@@ -70,6 +70,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       data.password,
       data.phoneNumber
     );
+
     if (result != true) {
       return next(new AppError(result, 401));
     }
@@ -114,51 +115,6 @@ exports.signup = catchAsync(async (req, res, next) => {
       const signupResult = await Signup.find();
       const signup = signupResult[0];
       if (signup) {
-        //--------CHECK USER DOCUMENT-------------
-        if (signup.identity) {
-          if (req.files.profilePicture && req.files.documentFile) {
-            data.profilePicture = req.files.profilePicture[0].filename;
-            data.documentFile = req.files.documentFile[0].filename;
-          } else {
-            return next(
-              new AppError(`Please upload the necessary documents!`, 500)
-            );
-          }
-        } else {
-          data.documentFile = undefined;
-          data.profilePicture = undefined;
-        }
-
-        //--------CHECK USER RESIDENCE-------------
-        if (signup.residence) {
-          if (
-            data.residentAddress1 == "" ||
-            data.residentDestrict == "" ||
-            data.residentZipCode == "" ||
-            data.residentState == "Select State" ||
-            data.residentCountry == "Select Country"
-          ) {
-            return next(
-              new AppError(`Please fill in all residential information!`, 500)
-            );
-          }
-        }
-
-        //--------CHECK USER ORIGIN-------------
-        if (signup.origin) {
-          if (
-            data.originAddress1 == "" ||
-            data.originDestrict == "" ||
-            data.originZipCode == "" ||
-            data.originState == "Select State" ||
-            data.originCountry == "Select Country"
-          ) {
-            return next(
-              new AppError(`Please fill in all information of origin!`, 500)
-            );
-          }
-        }
-
         //----------CHECK FOR EMAIL---------------
         if (signup.email) {
           data.suspension = true;
@@ -411,24 +367,24 @@ function validateUser(
   password,
   phoneNumber
 ) {
-  const regex = /^.{6,}$/;
-  const regexUser = /^.{3,}$/;
+  const regex = /^.{3,}$/;
+  const regexUser = /^.{1,}$/;
   const phoneRegex = /^[0-9+]+$/;
 
   if (!regexUser.test(username)) {
-    return "Username must be at least 4 characters long";
+    return "Username must be at least 2 characters long";
   }
 
   if (!regexUser.test(firstName)) {
-    return "First name must be at least 4 characters long";
+    return "First name must be at least 2 characters long";
   }
 
   if (!regexUser.test(lastName)) {
-    return "Last name must be at least 4 characters long";
+    return "Last name must be at least 2 characters long";
   }
 
   if (!regex.test(password)) {
-    return "Password must be at least 6 characters long";
+    return "Password must be at least 3 characters long";
   }
 
   if (phoneNumber) {

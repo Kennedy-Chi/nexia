@@ -12,6 +12,7 @@ const AppError = require("../utils/appError");
 const User = require("../models/userModel");
 const Email = require("../models/emailModel");
 const SendEmail = require("../utils/email");
+const TestEmail = require("../utils/testEmail");
 const notificationController = require("../controllers/notificationController");
 const APIFeatures = require("../utils/apiFeatures");
 const catchAsync = require("../utils/catchAsync");
